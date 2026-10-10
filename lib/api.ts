@@ -37,12 +37,12 @@ export async function fetchNotes(params: FetchNotesParams = {}): Promise<FetchNo
     queryParams.tag = params.tag;
   }
 
-  const response = await api.get('/notes', { params: queryParams });
+  const response = await api.get<FetchNotesResponse>('/notes', { params: queryParams });
   return response.data;
 }
 
 export async function fetchNoteById(id: string): Promise<Note> {
-  const response = await api.get(`/notes/${id}`);
+  const response = await api.get<Note>(`/notes/${id}`);
   return response.data;
 }
 
@@ -51,6 +51,7 @@ export async function createNote(newNote: CreateNoteDto): Promise<Note> {
   return response.data;
 }
 
-export async function deleteNote(id: string): Promise<void> {
-  await api.delete(`/notes/${id}`);
+export async function deleteNote(id: string): Promise<Note> {
+  const response = await api.delete<Note>(`/notes/${id}`);
+  return response.data;
 }
