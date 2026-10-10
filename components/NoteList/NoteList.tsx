@@ -23,17 +23,17 @@ export default function NoteList({ notes }: NoteListProps) {
   return (
     <ul className={css.list}>
       {notes.map((note) => (
-        <li key={note.id} className={css.item}>
+        <li key={note.id} className={css.listItem}>
           <span className={css.tag}>{note.tag}</span>
           <h3 className={css.title}>{note.title}</h3>
           <p className={css.content}>{note.content}</p>
           <div className={css.footer}>
-            <Link href={`/notes/${note.id}`} className={css.viewBtn}>
+            <Link href={`/notes/${note.id}`} className={css.link}>
               View details
             </Link>
             <button
               type="button"
-              className={css.deleteBtn}
+              className={css.button}
               onClick={() => deleteMutation.mutate(note.id)}
               disabled={deleteMutation.isPending}
             >

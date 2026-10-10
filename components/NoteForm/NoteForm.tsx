@@ -52,14 +52,14 @@ export default function NoteForm({ onClose }: NoteFormProps) {
     >
       {({ isSubmitting }) => (
         <Form className={css.form}>
-          <div className={css.fieldGroup}>
-            <label htmlFor="title" className={css.label}>Title</label>
+          <div className={css.formGroup}>
+            <label htmlFor="title">Title</label>
             <Field id="title" name="title" type="text" className={css.input} />
             <ErrorMessage name="title" component="div" className={css.error} />
           </div>
 
-          <div className={css.fieldGroup}>
-            <label htmlFor="content" className={css.label}>Content</label>
+          <div className={css.formGroup}>
+            <label htmlFor="content">Content</label>
             <Field
               id="content"
               name="content"
@@ -70,8 +70,8 @@ export default function NoteForm({ onClose }: NoteFormProps) {
             <ErrorMessage name="content" component="div" className={css.error} />
           </div>
 
-          <div className={css.fieldGroup}>
-            <label htmlFor="tag" className={css.label}>Tag</label>
+          <div className={css.formGroup}>
+            <label htmlFor="tag">Tag</label>
             <Field id="tag" name="tag" as="select" className={css.select}>
               <option value="Todo">Todo</option>
               <option value="Work">Work</option>
@@ -86,14 +86,14 @@ export default function NoteForm({ onClose }: NoteFormProps) {
             <button
               type="button"
               onClick={onClose}
-              className={css.cancelBtn}
+              className={css.cancelButton}
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting || mutation.isPending}
-              className={css.submitBtn}
+              className={css.submitButton}
             >
               {mutation.isPending ? 'Saving...' : 'Create Note'}
             </button>

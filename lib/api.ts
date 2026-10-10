@@ -11,40 +11,46 @@ const api = axios.create({
   },
 });
 
-export interface FetchNotesResponse {
+interface FetchNotesParams {
+  page?: number;
+  perPage?: number;
+  search?: string;
+  tag?: string;
+}
+
+interface FetchNotesResponse {
   notes: Note[];
   totalPages: number;
 }
 
-export const fetchNotes = async (
-  page: number = 1,
-  search: string = ''
-): Promise<FetchNotesResponse> => {
-  const response = await api.get<FetchNotesResponse>('/notes', {
-    params: { page, search },
-  });
-  return response.data;
-};
+export async function fetchNotes(params: FetchNotesParams = {}): Promise<FetchNotesResponse> {
+  const queryParams: Record<string, any> = {
+    page: params.page || 1,
+    perPage: params.perPage || 12,
+  };
 
-export const fetchNoteById = async (id: string): Promise<Note> => {
-  const response = await api.get<Note>(`/notes/${id}`);
-  return response.data;
-};
+  if (params.search) {
+    queryParams.search = params.search;
+  }
 
-export const createNote = async (noteData: CreateNoteDto): Promise<Note> => {
-  const response = await api.post<Note>('/notes', noteData);
-  return response.data;
-};
+  if (params.tag && params.tag !== 'all') {
+    queryParams.tag = params.tag;
+  }
 
-export const updateNote = async (
-  id: string,
-  noteData: Partial<CreateNoteDto>
-): Promise<Note> => {
-  const response = await api.patch<Note>(`/notes/${id}`, noteData);
+  const response = await api.get('/notes', { params: queryParams });
   return response.data;
-};
+}
 
-export const deleteNote = async (id: string): Promise<Note> => {
-  const response = await api.delete<Note>(`/notes/${id}`);
+export async function fetchNoteById(id: string): Promise<Note> {
+  const response = await api.get(`/notes/${id}`);
   return response.data;
-};
+}
+
+export async function createNote(newNote: CreateNoteDto): Promise<Note> {
+  const response = await api.post<Note>('/notes', newNote);
+  return response.data;
+}
+
+export async function deleteNote(id: string): Promise<void> {
+  await api.delete(`/notes/${id}`);
+}
